@@ -322,10 +322,7 @@ var thisVideo = document.getElementById("videoStim");
 var nPresentations = 0;
 
 function stimHandler() {
-	presentResponses();
-			document.getElementById("imageStim_preload").src = serverRoot + stimPath + "statics/" + maintaskParam.allTrialOrders[maintaskParam.shuffledOrder[maintaskParam.numComplete]].stimulus + ".png"; // preload next static image
-			preloadStim(maintaskParam.numComplete);
-	/*document.getElementById('videoStim').removeEventListener('ended', stimHandler, false);
+	document.getElementById('videoStim').removeEventListener('ended', stimHandler, false);
 	setTimeout(function() {
 		$('#videoStimPackageDiv').css('opacity', '0');
 		if (nPresentations < 2) {
@@ -340,7 +337,7 @@ function stimHandler() {
 			document.getElementById("imageStim_preload").src = serverRoot + stimPath + "statics/" + maintaskParam.allTrialOrders[maintaskParam.shuffledOrder[maintaskParam.numComplete]].stimulus + ".png"; // preload next static image
 			preloadStim(maintaskParam.numComplete); // load next movie
 		}
-	}, 1000);*/
+	}, 1000);
 }
 
 function playVid() {
@@ -374,8 +371,12 @@ function preloadStim(stimNum) {
 	});
 }
 */
-
 function preloadStim(stimNum) {
+        var stimURL = serverRoot + stimPath + "dynamics/" + maintaskParam.allTrialOrders[maintaskParam.shuffledOrder[stimNum]].stimulus + "t.mp4";
+        document.getElementById("videoStim").src = stimURL 
+        enablePlayButton();
+}
+/*function preloadStim(stimNum) {
 	var req = new XMLHttpRequest();
 	var stimURL = serverRoot + stimPath + "dynamics/" + maintaskParam.allTrialOrders[maintaskParam.shuffledOrder[stimNum]].stimulus + "t.mp4";
 	req.open('GET', stimURL, true);
@@ -396,7 +397,7 @@ function preloadStim(stimNum) {
 	};
 	req.send();
 }
-
+*/
 
 // Play button control //
 function disablePlayButton() {
@@ -437,13 +438,12 @@ var mmtofurkeyGravy = {
 };
 
 var trainingVideo = {
-
-
 	preloadStim: function() {
 		var req = new XMLHttpRequest();
 		var stimURL = serverRoot + stimPath + "dynamics/" + "258_c_ed_vbr2.mp4";
 		req.open('GET', stimURL, true);
 		req.responseType = 'blob';
+		enableAdvance();
 
 		req.onload = function() {
 			// Onload is triggered even on 404
@@ -470,17 +470,15 @@ var trainingVideo = {
 		};
 		req.send();
 	},
-
 }
-
 function enableAdvance() {
 	$('#training_advance_button').removeClass('advance-button-inactive').addClass('advance-button');
 	$('#training_advance_button').removeClass('advance-button-inactive').addClass('advance-button');
 	document.getElementById('training_advance_button').onclick = function() {
-		//if (!!maintask.validate0('7510')) {
+		if (!!maintask.validate0('7510')) {
 			this.blur();
-			showSlide('slideResponse')
-	//	};
+			showSlide(4)
+		};
 
 	}
 }
@@ -897,9 +895,9 @@ function loadHIT(nextSlide) {
 
 			next: function() {
 				// Show the experiment slide.
-				//$("#videoStimPackageDiv").hide();
-				//$("#playButtonContainer").show();
-				//showSlide("slideResponse");
+				$("#videoStimPackageDiv").hide();
+				$("#playButtonContainer").show();
+				showSlide("slideStimulus");
 				// slideStimulusContext
 				try {
 					var url = URL.revokeObjectURL(document.getElementById("videoStim_small").src); // IE10+
@@ -945,7 +943,7 @@ function loadHIT(nextSlide) {
 				// If this is not the first trial, record variables
 				if (maintaskParam.numComplete > 0) {
 
-					this.q1responseArray[maintaskParam.numComplete - 1] = e1.value;
+					/*this.q1responseArray[maintaskParam.numComplete - 1] = e1.value;
 					this.q2responseArray[maintaskParam.numComplete - 1] = e2.value;
 					this.q3responseArray[maintaskParam.numComplete - 1] = e3.value;
 					this.q4responseArray[maintaskParam.numComplete - 1] = e4.value;
@@ -1009,7 +1007,7 @@ function loadHIT(nextSlide) {
 						maintaskParam.trialInSitu.q19responseArray = e19.value;
 						maintaskParam.trialInSitu.q20responseArray = e20.value;
 					}
-
+					*/
 					this.data.push(maintaskParam.trial);
 
 					ResetRanges();
@@ -1042,12 +1040,12 @@ function loadHIT(nextSlide) {
 					document.getElementById("imageStim").src = document.getElementById("imageStim_preload").src;
 
 					if (maintaskParam.trial.stimulus[4] == 1) {
-						document.getElementById("imageStim_front1").src = document.getElementById("imageStim").src;
+						document.getElementById("imageStim_front1").src = serverRoot + stimPath + "statics/" + maintaskParam.trial.stimulus + ".png";
 						document.getElementById("imageStim_front2").src = serverRoot + "images/generic_avatar_male.png";
 						maintaskParam.trial.decisionOther
 					} else if (maintaskParam.trial.stimulus[4] == 2) {
 						document.getElementById("imageStim_front1").src = serverRoot + "images/generic_avatar_male.png";
-						document.getElementById("imageStim_front2").src = document.getElementById("imageStim").src;
+						document.getElementById("imageStim_front2").src = serverRoot + stimPath + "statics/" + maintaskParam.trial.stimulus + ".png";
 					}
 
 
@@ -1057,12 +1055,12 @@ function loadHIT(nextSlide) {
 
 					$('#contextText_decisionOther').html("&nbsp;" + maintaskParam.trial.decisionOther);
 					$('#contextText_decisionThis').html("&nbsp;" + maintaskParam.trial.decisionThis);
-					document.getElementById("contextImg_decisionOther").src = serverRoot + "images/" + maintaskParam.trial.decisionOther + "Ball.png";
-					document.getElementById("contextImg_decisionThis").src = serverRoot + "images/" + maintaskParam.trial.decisionThis + "Ball.png";
+					//document.getElementById("contextImg_decisionOther").src = serverRoot + "images/" + maintaskParam.trial.decisionOther + "Ball.png";
+					//document.getElementById("contextImg_decisionThis").src = serverRoot + "images/" + maintaskParam.trial.decisionThis + "Ball.png";
 					document.getElementById("miniface_Other").src = serverRoot + "images/generic_avatar_male.png";
 					document.getElementById("miniface_This").src = document.getElementById("imageStim").src;
 
-					var outcomeOther = 0;
+					/*var outcomeOther = 0;
 					var outcomeThis = 0;
 					if (maintaskParam.trial.decisionOther === "Split" && maintaskParam.trial.decisionThis === "Split") {
 						outcomeOther = 'Won $' + numberWithCommas(Math.floor(maintaskParam.trial.pot * 50) / 100);
@@ -1119,7 +1117,7 @@ function loadHIT(nextSlide) {
 					$("#contextSubTableID").clone().appendTo("#contextTableFrontDiv"); // insert information in video div
 
 					this.stimIDArray[maintaskParam.numComplete] = maintaskParam.trial.stimID;
-					this.stimulusArray[maintaskParam.numComplete] = maintaskParam.trial.stimulus;
+					this.stimulusArray[maintaskParam.numComplete] = maintaskParam.trial.stimulus;*/
 
 					maintaskParam.numComplete++;
 
