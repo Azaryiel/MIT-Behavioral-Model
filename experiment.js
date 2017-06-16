@@ -910,7 +910,7 @@ function loadHIT(nextSlide) {
 					preloadStim(0); // load first video
 					document.getElementById("imageStim_preload").src = serverRoot + stimPath + "statics/" + maintaskParam.allTrialOrders[maintaskParam.shuffledOrder[0]].stimulus + ".png"; // first static image
 
-					if (!!maintaskParam.storeDataInSitu) {
+					/*if (!!maintaskParam.storeDataInSitu) {
 						for (var i = 0; i < maintaskParam.allTrialOrders.length; i++) {
 							var temp = maintaskParam.allTrialOrders[i];
 							temp.q1responseArray = "";
@@ -943,7 +943,7 @@ function loadHIT(nextSlide) {
 				// If this is not the first trial, record variables
 				if (maintaskParam.numComplete > 0) {
 
-					/*this.q1responseArray[maintaskParam.numComplete - 1] = e1.value;
+					this.q1responseArray[maintaskParam.numComplete - 1] = e1.value;
 					this.q2responseArray[maintaskParam.numComplete - 1] = e2.value;
 					this.q3responseArray[maintaskParam.numComplete - 1] = e3.value;
 					this.q4responseArray[maintaskParam.numComplete - 1] = e4.value;
@@ -1050,15 +1050,15 @@ function loadHIT(nextSlide) {
 
 
 					/// console.log("currentImg", maintaskParam.trial.stimulus);
-					$('#context_jackpot').text("$" + numberWithCommas(maintaskParam.trial.pot));
-					$('#context_jackpot_front').text("$" + numberWithCommas(maintaskParam.trial.pot));
+					//$('#context_jackpot').text("$" + numberWithCommas(maintaskParam.trial.pot));
+					//$('#context_jackpot_front').text("$" + numberWithCommas(maintaskParam.trial.pot));
 
-					$('#contextText_decisionOther').html("&nbsp;" + maintaskParam.trial.decisionOther);
-					$('#contextText_decisionThis').html("&nbsp;" + maintaskParam.trial.decisionThis);
+					//$('#contextText_decisionOther').html("&nbsp;" + maintaskParam.trial.decisionOther);
+					//$('#contextText_decisionThis').html("&nbsp;" + maintaskParam.trial.decisionThis);
 					//document.getElementById("contextImg_decisionOther").src = serverRoot + "images/" + maintaskParam.trial.decisionOther + "Ball.png";
 					//document.getElementById("contextImg_decisionThis").src = serverRoot + "images/" + maintaskParam.trial.decisionThis + "Ball.png";
-					document.getElementById("miniface_Other").src = serverRoot + "images/generic_avatar_male.png";
-					document.getElementById("miniface_This").src = document.getElementById("imageStim").src;
+					//document.getElementById("miniface_Other").src = serverRoot + "images/generic_avatar_male.png";
+					//document.getElementById("miniface_This").src = document.getElementById("imageStim").src;
 
 					/*var outcomeOther = 0;
 					var outcomeThis = 0;
