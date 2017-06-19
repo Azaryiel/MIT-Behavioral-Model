@@ -125,12 +125,9 @@ function validateDemoRanges() {
 }
 
 function ResetRanges() {
-	var ranges = $('input[type="range"]');
-	for (var i = 0; i < ranges.length; i++) {
-		ranges[i].value = "0";
-	}
-	ranges.removeClass('slider-input').addClass('not-clicked');
-	ranges.closest('.slider').children('label').removeClass("slider-label").addClass("slider-label-not-clicked");
+	$('input[name=thisChoice]').attr('checked',false);
+	$('input[name=otherChoice]').attr('checked',false);
+	$('input[name=potChoice]').attr('checked',false);
 }
 
 // Textareas //
@@ -436,6 +433,68 @@ var mmtofurkeyGravy = {
 		} catch (e) { console.log("tofurkeyGravy Error:", e); }
 	}
 };
+//Radio Response Control//
+//Radio Storage Control//
+var thisPlayerCertainty = [];
+var otherPlayerCertainty = [];
+var potChoiceCertainty = [];
+ function thisValue() {
+				if (maintaskParam.numComplete >0){
+				var radiosT = document.getElementsByName('thisChoice');
+				var radiosO = document.getElementsByName('otherChoice');
+				var radiosP = document.getElementsByName('potChoice');
+				for (var i = 0; i < radiosT.length; i++) {
+					if (radiosT[i].checked == true) {
+						var a=radiosT[i].value;
+						thisPlayerCertainty.push(a);			
+					}
+				}
+				for (var i = 0; i < radiosT.length; i++) {
+					if (radiosO[i].checked == true) {	
+						var a=radiosO[i].value;
+						otherPlayerCertainty.push(a);			
+					}
+				}
+				for (var i = 0; i < radiosP.length; i++) {
+					if (radiosP[i].checked == true) {	
+						var a=radiosP[i].value;
+						potChoiceCertainty.push(a);			
+					}
+				}
+				console.log('Certainties:', thisPlayerCertainty, otherPlayerCertainty, potChoiceCertainty);
+					ResetRanges();
+			}
+			}
+
+function ValidateRadio(){
+				var radiosT = document.getElementsByName('thisChoice');
+				var radiosO = document.getElementsByName('otherChoice');
+				var radiosP = document.getElementsByName('potChoice');
+				var pass0 = false;
+				var pass1 = false;
+				var pass2 = false;
+				for(var i = 0; i < radiosO.length; i++){
+					if (radiosT[i].checked == true) {
+						pass0 = true;
+					}
+				}
+				for(var i = 0; i < radiosT.length; i++){
+					 if(radiosO[i].checked == true){
+						pass1 = true;
+					}
+				}
+				for(var i = 0; i < radiosP.length; i++){
+					 if(radiosP[i].checked == true){
+						pass2 = true;
+					}	
+				}
+				if (pass0 == false || pass1 == false || pass2 == false) {
+					alert("Please provide an answer to all answer choices");
+					return false;
+				} else{
+					return true;
+				}	
+			}
 
 var trainingVideo = {
 	preloadStim: function() {
@@ -793,7 +852,11 @@ function loadHIT(nextSlide) {
 
 			stimIDArray: new Array(maintaskParam.numTrials),
 			stimulusArray: new Array(maintaskParam.numTrials),
+			thisPlayerCertainty,
+			otherPlayerCertainty,
+	 		potChoiceCertainty,
 
+			/*
 			q1responseArray: new Array(maintaskParam.numTrials),
 			q2responseArray: new Array(maintaskParam.numTrials),
 			q3responseArray: new Array(maintaskParam.numTrials),
@@ -814,7 +877,7 @@ function loadHIT(nextSlide) {
 			q18responseArray: new Array(maintaskParam.numTrials),
 			q19responseArray: new Array(maintaskParam.numTrials),
 			q20responseArray: new Array(maintaskParam.numTrials),
-
+			*/
 			randCondNum: new Array(1),
 
 			validationRadioExpectedResp: new Array(2),
@@ -823,7 +886,6 @@ function loadHIT(nextSlide) {
 			dem_language: [],
 			val_recognized: [],
 			val_feedback: [],
-
 			data: [],
 			dataInSitu: [],
 
@@ -895,22 +957,27 @@ function loadHIT(nextSlide) {
 
 			next: function() {
 				// Show the experiment slide.
+				if (maintaskParam.numComplete > 0) {
+				thisValue();
+				}
 				$("#videoStimPackageDiv").hide();
 				$("#playButtonContainer").show();
 				showSlide("slideStimulus");
+
 				// slideStimulusContext
 				try {
 					var url = URL.revokeObjectURL(document.getElementById("videoStim_small").src); // IE10+
 				} catch (err) {}
 				// duplicate allTrialOrders
+
+
 				if (maintaskParam.numComplete === 0) {
 					// this.randCondNum.push(condNum); // push randomization number
 					this.randCondNum = condNum;
 					disablePlayButton();
 					preloadStim(0); // load first video
 					document.getElementById("imageStim_preload").src = serverRoot + stimPath + "statics/" + maintaskParam.allTrialOrders[maintaskParam.shuffledOrder[0]].stimulus + ".png"; // first static image
-
-					/*if (!!maintaskParam.storeDataInSitu) {
+										/*if (!!maintaskParam.storeDataInSitu) {
 						for (var i = 0; i < maintaskParam.allTrialOrders.length; i++) {
 							var temp = maintaskParam.allTrialOrders[i];
 							temp.q1responseArray = "";
@@ -940,9 +1007,11 @@ function loadHIT(nextSlide) {
 					}
 				}
 
-				// If this is not the first trial, record variables
+				// If this is not the first trial, record variables*/
 				if (maintaskParam.numComplete > 0) {
+				}
 
+/*
 					this.q1responseArray[maintaskParam.numComplete - 1] = e1.value;
 					this.q2responseArray[maintaskParam.numComplete - 1] = e2.value;
 					this.q3responseArray[maintaskParam.numComplete - 1] = e3.value;
@@ -1010,7 +1079,7 @@ function loadHIT(nextSlide) {
 					*/
 					this.data.push(maintaskParam.trial);
 
-					ResetRanges();
+					
 				}
 
 				// If subject has completed all trials, update progress bar and
