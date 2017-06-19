@@ -1108,14 +1108,9 @@ function loadHIT(nextSlide) {
 					// document.getElementById("imageStim").src = serverRoot + stimPath + "statics/" + maintaskParam.trial.stimulus + ".png"; // preload next static image
 					document.getElementById("imageStim").src = document.getElementById("imageStim_preload").src;
 
-					if (maintaskParam.trial.stimulus[4] == 1) {
-						document.getElementById("imageStim_front1").src = serverRoot + stimPath + "statics/" + maintaskParam.trial.stimulus + ".png";
-						document.getElementById("imageStim_front2").src = serverRoot + "images/generic_avatar_male.png";
-						maintaskParam.trial.decisionOther
-					} else if (maintaskParam.trial.stimulus[4] == 2) {
-						document.getElementById("imageStim_front1").src = serverRoot + "images/generic_avatar_male.png";
-						document.getElementById("imageStim_front2").src = serverRoot + stimPath + "statics/" + maintaskParam.trial.stimulus + ".png";
-					}
+					document.getElementById("imageStim_front1").src = serverRoot + "images/generic_avatar_male.png";
+					document.getElementById("imageStim_front2").src = serverRoot + stimPath + "statics/" + maintaskParam.trial.stimulus + ".png";
+
 
 
 					/// console.log("currentImg", maintaskParam.trial.stimulus);
