@@ -474,12 +474,12 @@ function ValidateRadio(){
 				var pass1 = false;
 				var pass2 = false;
 				for(var i = 0; i < radiosO.length; i++){
-					if (radiosT[i].checked == true) {
+					if (radiosO[i].checked == true) {
 						pass0 = true;
 					}
 				}
 				for(var i = 0; i < radiosT.length; i++){
-					 if(radiosO[i].checked == true){
+					 if(radiosT[i].checked == true){
 						pass1 = true;
 					}
 				}
